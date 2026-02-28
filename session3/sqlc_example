@@ -1,0 +1,173 @@
+package main
+
+import (
+	"context"
+	"database/sql"
+	"fmt"
+	db "gorm-sqlc/sqlc"
+	"log"
+
+	_ "github.com/lib/pq"
+)
+
+func sqlcExamples() {
+	// Connect to database
+	conn, err := sql.Open("postgres", "postgres://user:pass@localhost/dbname?sslmode=disable")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+
+	ctx := context.Background()
+	queries := db.New(conn)
+
+	// 1. CREATE - Insert a new user
+	fmt.Println("=== CREATE USER ===")
+	newUser, err := queries.CreateUser(ctx, db.CreateUserParams{
+		Email:    "john@example.com",
+		Username: "johndoe",
+		FullName: "John Doe",
+		Age:      sql.NullInt32{Int32: 30, Valid: true},
+		IsActive: true,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Created user: %+v\n", newUser)
+
+	// 2. READ - Get user by ID
+	fmt.Println("\n=== GET USER BY ID ===")
+	user, err := queries.GetUserByID(ctx, newUser.ID)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Found user: %+v\n", user)
+
+	// 3. READ - Get user by email
+	fmt.Println("\n=== GET USER BY EMAIL ===")
+	userByEmail, err := queries.GetUserByEmail(ctx, "john@example.com")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Found user by email: %+v\n", userByEmail)
+
+	// 4. LIST - Get paginated users
+	fmt.Println("\n=== LIST USERS (PAGINATED) ===")
+	users, err := queries.ListUsers(ctx, db.ListUsersParams{
+		Limit:  10,
+		Offset: 0,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, u := range users {
+		fmt.Printf("User: %s (%s)\n", u.FullName, u.Email)
+	}
+
+	// 5. LIST - Get active users
+	fmt.Println("\n=== LIST ACTIVE USERS ===")
+	activeUsers, err := queries.ListActiveUsers(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Found %d active users\n", len(activeUsers))
+
+	// 6. UPDATE - Update user details
+	fmt.Println("\n=== UPDATE USER ===")
+	updatedUser, err := queries.UpdateUser(ctx, db.UpdateUserParams{
+		ID:       newUser.ID,
+		Email:    "john.doe@example.com",
+		Username: "johndoe",
+		FullName: "John Michael Doe",
+		Age:      sql.NullInt32{Int32: 31, Valid: true},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Updated user: %+v\n", updatedUser)
+
+	// 7. UPDATE - Update active status
+	fmt.Println("\n=== UPDATE USER STATUS ===")
+	err = queries.UpdateUserActiveStatus(ctx, db.UpdateUserActiveStatusParams{
+		ID:       newUser.ID,
+		IsActive: false,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("User status updated")
+
+	// 8. SEARCH - Search users by name
+	fmt.Println("\n=== SEARCH USERS BY NAME ===")
+	searchResults, err := queries.SearchUsersByName(ctx, "John")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Found %d users matching 'John'\n", len(searchResults))
+
+	// 9. FILTER - Get users by age range
+	fmt.Println("\n=== GET USERS BY AGE RANGE ===")
+	usersInRange, err := queries.GetUsersByAgeRange(ctx, db.GetUsersByAgeRangeParams{
+		Age:   25,
+		Age_2: 35,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Found %d users aged 25-35\n", len(usersInRange))
+
+	// 10. COUNT - Count total users
+	fmt.Println("\n=== COUNT USERS ===")
+	count, err := queries.CountUsers(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Total users: %d\n", count)
+
+	// 11. DELETE - Delete user
+	fmt.Println("\n=== DELETE USER ===")
+	err = queries.DeleteUser(ctx, newUser.ID)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("User deleted")
+
+	// 12. TRANSACTIONS - Multiple operations
+	fmt.Println("\n=== TRANSACTION EXAMPLE ===")
+	tx, err := conn.BeginTx(ctx, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	qtx := queries.WithTx(tx)
+
+	// Create multiple users in a transaction
+	user1, err := qtx.CreateUser(ctx, db.CreateUserParams{
+		Email:    "alice@example.com",
+		Username: "alice",
+		FullName: "Alice Smith",
+		Age:      sql.NullInt32{Int32: 25, Valid: true},
+		IsActive: true,
+	})
+	if err != nil {
+		tx.Rollback()
+		log.Fatal(err)
+	}
+
+	user2, err := qtx.CreateUser(ctx, db.CreateUserParams{
+		Email:    "bob@example.com",
+		Username: "bob",
+		FullName: "Bob Johnson",
+		Age:      sql.NullInt32{Int32: 28, Valid: true},
+		IsActive: true,
+	})
+	if err != nil {
+		tx.Rollback()
+		log.Fatal(err)
+	}
+
+	// Commit transaction
+	if err := tx.Commit(); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Created users in transaction: %s, %s\n", user1.Username, user2.Username)
+}

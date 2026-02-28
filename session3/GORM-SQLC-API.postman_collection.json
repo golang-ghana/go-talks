@@ -1,0 +1,622 @@
+{
+	"info": {
+		"_postman_id": "gorm-sqlc-api-collection",
+		"name": "GORM & SQLC API Collection",
+		"description": "Complete API collection for GORM and SQLC examples. Similar operations are grouped together for easy comparison.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": ["{{base_url}}"],
+							"path": ["health"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Create User",
+			"item": [
+				{
+					"name": "GORM - Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john@example.com\",\n  \"username\": \"johndoe\",\n  \"full_name\": \"John Doe\",\n  \"age\": 30,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users"]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john@example.com\",\n  \"username\": \"johndoe\",\n  \"full_name\": \"John Doe\",\n  \"age\": 30,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Get User by ID",
+			"item": [
+				{
+					"name": "GORM - Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Get User by Email",
+			"item": [
+				{
+					"name": "GORM - Get User by Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/email/:email",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", "email", ":email"],
+							"variable": [
+								{
+									"key": "email",
+									"value": "john@example.com"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Get User by Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users/email/:email",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users", "email", ":email"],
+							"variable": [
+								{
+									"key": "email",
+									"value": "john@example.com"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "List Users (Paginated)",
+			"item": [
+				{
+					"name": "GORM - List Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users?limit=10&offset=0",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "SQLC - List Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users?limit=10&offset=0",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "List Active Users",
+			"item": [
+				{
+					"name": "GORM - List Active Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/active",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", "active"]
+						}
+					}
+				},
+				{
+					"name": "SQLC - List Active Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users/active",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users", "active"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Update User",
+			"item": [
+				{
+					"name": "GORM - Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"username\": \"johndoe\",\n  \"full_name\": \"John Michael Doe\",\n  \"age\": 31\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"username\": \"johndoe\",\n  \"full_name\": \"John Michael Doe\",\n  \"age\": 31\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Update User Status",
+			"item": [
+				{
+					"name": "GORM - Update User Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/:id/status",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", ":id", "status"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Update User Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users/:id/status",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users", ":id", "status"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Delete User",
+			"item": [
+				{
+					"name": "GORM - Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Search Users by Name",
+			"item": [
+				{
+					"name": "GORM - Search Users by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/search?q=John",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "John"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Search Users by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users/search?q=John",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "John"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Get Users by Age Range",
+			"item": [
+				{
+					"name": "GORM - Get Users by Age Range",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/age-range?min_age=25&max_age=35",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", "age-range"],
+							"query": [
+								{
+									"key": "min_age",
+									"value": "25"
+								},
+								{
+									"key": "max_age",
+									"value": "35"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Get Users by Age Range",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users/age-range?min_age=25&max_age=35",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users", "age-range"],
+							"query": [
+								{
+									"key": "min_age",
+									"value": "25"
+								},
+								{
+									"key": "max_age",
+									"value": "35"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Count Users",
+			"item": [
+				{
+					"name": "GORM - Count Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/count",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", "count"]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Count Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/users/count",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "users", "count"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "GORM - Create Users in Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"users\": [\n    {\n      \"email\": \"alice@example.com\",\n      \"username\": \"alice\",\n      \"full_name\": \"Alice Smith\",\n      \"age\": 25,\n      \"is_active\": true\n    },\n    {\n      \"email\": \"bob@example.com\",\n      \"username\": \"bob\",\n      \"full_name\": \"Bob Johnson\",\n      \"age\": 28,\n      \"is_active\": true\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/gorm/transactions/users",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "transactions", "users"]
+						}
+					}
+				},
+				{
+					"name": "SQLC - Create Users in Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"users\": [\n    {\n      \"email\": \"alice@example.com\",\n      \"username\": \"alice\",\n      \"full_name\": \"Alice Smith\",\n      \"age\": 25,\n      \"is_active\": true\n    },\n    {\n      \"email\": \"bob@example.com\",\n      \"username\": \"bob\",\n      \"full_name\": \"Bob Johnson\",\n      \"age\": 28,\n      \"is_active\": true\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/sqlc/transactions/users",
+							"host": ["{{base_url}}"],
+							"path": ["api", "sqlc", "transactions", "users"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Advanced GORM Operations",
+			"item": [
+				{
+					"name": "GORM - Complex Query",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/complex",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", "complex"]
+						},
+						"description": "Complex query with multiple WHERE conditions and OR clause"
+					}
+				},
+				{
+					"name": "GORM - Select Specific Fields",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/partial",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", "partial"]
+						},
+						"description": "Select only specific fields (id, username, email) instead of all columns"
+					}
+				},
+				{
+					"name": "GORM - Raw SQL Query",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/gorm/users/raw?min_age=20&limit=5",
+							"host": ["{{base_url}}"],
+							"path": ["api", "gorm", "users", "raw"],
+							"query": [
+								{
+									"key": "min_age",
+									"value": "20",
+									"description": "Minimum age"
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"description": "Number of results"
+								}
+							]
+						},
+						"description": "Execute raw SQL query directly"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
